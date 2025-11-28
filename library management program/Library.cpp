@@ -1,8 +1,10 @@
 #include "Library.h"
 #include <iostream>
+#include <fstream>
 
 Library::Library() {
 	head = nullptr;
+	loadBooks();
 }
 
 void Library::addBook(std::string title, std::string author) {
@@ -60,7 +62,44 @@ void Library::searchBook(std::string title) {
 	}
 }
 
+void Library::saveBooks() {
+	std::ofstream outFile("data.txt");
+
+	if (!outFile.is_open()) {
+		std::cout << "파일을 열 수 없습니다.\n";
+		return;
+	}
+
+	Node* temp = head;
+	while (temp != nullptr) {
+		outFile << temp->data.getTitle() << "," << temp->data.getAuthor() << "\n";
+		temp = temp->next;
+	}
+
+	outFile.close();
+	std::cout << "데이터 저장 완료!\n";
+}
+
+void Library::loadBooks() {
+	std::ifstream inFile("data.txt");
+	
+	if (!inFile.is_open()) {
+		return;
+	}
+
+	std::string title, author;
+
+	while (getline(inFile, title, ',') && getline(inFile, author)) {
+		addBook(title, author);
+	}
+
+	inFile.close();
+	std::cout << "[System] 데이터 불러오기 완료\n";
+
+}
+
 Library::~Library() {
+	saveBooks();
 	Node* temp = head;
 	while (temp != nullptr) {
 		Node* nextNode = temp->next;
@@ -69,3 +108,4 @@ Library::~Library() {
 	}
 	std::cout << "도서관 폐관 : 모든 책을 정리했습니다.\n";
 }
+

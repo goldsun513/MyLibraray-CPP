@@ -11,6 +11,10 @@ std::string Book::getTitle() const {
 	return title;
 }
 
+std::string Book::getAuthor() const {
+	return author;
+}
+
 bool Book::getIsBorrowed() const {
 	return isBorrowed;
 }

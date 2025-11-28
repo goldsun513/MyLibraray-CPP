@@ -14,6 +14,7 @@ public:
 	Book(std::string t, std::string a);
 
 	std::string getTitle() const;
+	std::string getAuthor() const;
 	bool getIsBorrowed() const;
 
 	void borrowBook(); //´ë¿©
